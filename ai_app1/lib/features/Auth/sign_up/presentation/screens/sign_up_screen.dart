@@ -11,7 +11,7 @@ class SignUpScreen extends StatelessWidget {
   static String signUpScreenId = "SignUpScreen";
   @override
   Widget build(BuildContext context) {
-    String email = "";
+    String email = "";        //email address
     String password = "";
     final userProvider = Provider.of<SignUpUserDataProvider>(context);
     return Scaffold(
