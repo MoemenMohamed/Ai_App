@@ -1,87 +1,86 @@
-import 'package:ai_app1/features/Auth/sign_up/domain/entities/sign_up_entity.dart';
+import 'package:ai_app1/core/widgets/custom_eleveated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/providers/sign_up_user_data_provider.dart';
 import '../widgets/custom_text_form_field.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   static String signUpScreenId = "SignUpScreen";
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    String email = "";      //new change       
-    String password = "";
     final userProvider = Provider.of<SignUpUserDataProvider>(context);
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.blue.shade100,
       appBar: AppBar(
         backgroundColor: Colors.blue.shade100,
         title: Text("Sign up"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 20,
-          children: [
-            Spacer(
-              flex: 5,
-            ),
-            // ), Image(
-            //   image: AssetImage("assets/images/add-user.png"),
-            //   width: 150,
-            //   height: 150,
-            // ),
-            // Spacer(
-            //   flex: 1,
-            // ),
-            CustomTextFormField(
-              prefixIcon: Icon(Icons.person),
-              onChanged: (data) {
-                email = data;
-              },
-              hintText: "Email",
-            ),
-            Spacer(
-              flex: 1,
-            ),
-            CustomTextFormField(
-              prefixIcon: Icon(Icons.lock),
-              obscureText: true,
-              onChanged: (data) {
-                password = data;
-              },
-              hintText: "password",
-            ),
-            Spacer(flex: 1),
-            ElevatedButton(
-              onPressed: () async {
-                var result = await userProvider
-                    .signUp(SignUpEntity(email: email, password: password));
-                result.fold((failures) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(failures.failureMessage)),
-                  );
-                }, (userCredential) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Account Created Succefully")),
-                  );
-                });
-              },
-              style: ElevatedButton.styleFrom(fixedSize: Size(220, 50)),
-              child: const Text(
-                "Sign Up",
-                style: TextStyle(color: Colors.black, fontSize: 16),
+      body: LayoutBuilder(builder: (context, constraints) {
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spacer(
+                flex: 5,
               ),
-            ),
-            Spacer(
-              flex: 5,
-            ),
-          ],
-        ),
-      ),
+              CustomTextFormField(
+                  controller: emailController,
+                  prefixIcon: Icon(Icons.person),
+                  onChanged: (data) {},
+                  hintText: "Email",
+                  keyboardType: TextInputType.emailAddress),
+              Spacer(
+                flex: 1,
+              ),
+              CustomTextFormField(
+                controller: passwordController,
+                prefixIcon: Icon(Icons.lock),
+                obscureText: true,
+                onChanged: (data) {},
+                hintText: "password",
+              ),
+              Spacer(flex: 1),
+              CustomeElevatedButton(
+                style: ElevatedButton.styleFrom(fixedSize: Size(220, 50)),
+                onPressed: () async {
+                  var result = await userProvider.signUp(
+                      email: emailController.text,
+                      password: passwordController.text);
+                  result.fold((failures) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(failures.failureMessage)),
+                    );
+                  }, (userCredential) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Account Created Succefully")),
+                    );
+                  });
+                },
+                child: const Text(
+                  "Sign Up",
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                ),
+              ),
+              Spacer(
+                flex: 5,
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

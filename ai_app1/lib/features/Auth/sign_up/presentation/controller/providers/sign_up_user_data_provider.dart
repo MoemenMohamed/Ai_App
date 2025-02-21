@@ -9,7 +9,7 @@ class SignUpUserDataProvider extends ChangeNotifier {
   final SignUpUseCase signUpUseCase;
   SignUpUserDataProvider({required this.signUpUseCase});
   Future<Either<Failures, UserCredential>> signUp(
-      SignUpEntity signUpEntity) async {
-    return await signUpUseCase.execute(signUpEntity);
+      {required String email,required String password}) async {
+    return await signUpUseCase.execute(SignUpEntity(email: email, password: password));
   }
 }
