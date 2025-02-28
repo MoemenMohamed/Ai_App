@@ -4,5 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class BaseSignInRepo {
-  Future<Either<Failures, UserCredential>> postUserSignInData({required SignUpEntity signUpEntity});
+  Future<Either<Failures, UserCredential>> postUserSignInData(
+      {required SignUpEntity signUpEntity});
 }

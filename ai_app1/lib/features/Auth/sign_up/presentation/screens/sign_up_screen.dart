@@ -17,6 +17,8 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  bool _isVisible = false;
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<SignUpUserDataProvider>(context);
@@ -48,9 +50,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               CustomTextFormField(
                 controller: passwordController,
                 prefixIcon: Icon(Icons.lock),
-                obscureText: true,
+                obscureText: !_isVisible,
                 onChanged: (data) {},
                 hintText: "password",
+                suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isVisible = !_isVisible;
+                      });
+                    },
+                    icon: Icon(
+                        _isVisible ? Icons.visibility : Icons.visibility_off)),
               ),
               Spacer(flex: 1),
               CustomeElevatedButton(

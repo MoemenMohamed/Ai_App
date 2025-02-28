@@ -8,13 +8,17 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? prefixIcon;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
+  final Widget? suffixIcon;
   const CustomTextFormField(
       {super.key,
       required this.hintText,
       required this.onChanged,
       this.enabledBorder,
       this.prefixIcon,
-      this.obscureText = false, this.keyboardType, this.controller});
+      this.obscureText = false,
+      this.keyboardType,
+      this.controller,
+      this.suffixIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,8 @@ class CustomTextFormField extends StatelessWidget {
       decoration: InputDecoration(
           hintText: hintText,
           enabledBorder: enabledBorder,
-          prefixIcon: prefixIcon),
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon),
     );
   }
 }

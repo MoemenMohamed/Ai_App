@@ -23,9 +23,11 @@ class SignUpRepository extends BaseSignUpRepo {
         return Left(Failures(
             failureMessage: "The account already exists for that email."));
       }
-       return Left(Failures(failureMessage: e.message ?? "An unexpected authentication error occurred."));
+      return Left(Failures(
+          failureMessage:
+              e.message ?? "An unexpected authentication error occurred."));
     } catch (e) {
-       return Left(Failures(failureMessage: "An unexpected error occurred: $e"));
+      return Left(Failures(failureMessage: "An unexpected error occurred: $e"));
     }
   }
 }
